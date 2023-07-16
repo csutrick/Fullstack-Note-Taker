@@ -1,24 +1,27 @@
+// Require express package
 const express = require('express');
 
-// Settings
+// Require routes
+const api_routes = require('./routes/apiRoutes');
+const html_routes = require('./routes/htmlRoutes');
+
+// Setting PORT
 const PORT = process.env.PORT || 3001;
+// Asigning app var
 const app = express();
 
-const apiRoutes = require('./routes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes');
-
-// _Parsign the data
-app.use(express.urlencoded({ extended: true }));
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// link publoc folder
+// Static asset
 app.use(express.static('public'));
 
-// routes API
-app.use('/api', apiRoutes);
-app.use('/', htmlRoutes);
+// Using routes
+app.use(api_routes);
+app.use(html_routes);
 
-// Console command
-app.listen(PORT, () => {
-  console.log(`API server now on port ${PORT}!`);
-});
+// Console PORT command
+app.listen(PORT, () =>
+  console.log(`App listening at http://localhost:${PORT} 🚀`)
+);
